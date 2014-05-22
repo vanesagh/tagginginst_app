@@ -1,4 +1,6 @@
 TagginginstApp::Application.routes.draw do
+  get "static_pages/sls"
+  get "static_pages/phs"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
