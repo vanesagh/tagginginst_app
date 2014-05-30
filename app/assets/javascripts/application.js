@@ -14,3 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require crocodoc.viewer.js
+//= require crocodoc.viewer.min.js

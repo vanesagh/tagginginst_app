@@ -1,6 +1,87 @@
 <% provide(:title, 'Saltslösning') %>
+<%
+require 'pathname'
+#require_relative 'lib/box-view'
+BoxView.api_token = ENV['jqi0z69w07xibqa5bbkq79lm2cjcw7oj']
+Crocodoc = BoxView
 
-    <h1><%= yield(:title) %></h1>
+# == Example #1
+# 
+# Upload a file to Crocodoc. We're uploading Form W4 from the IRS by URL.
+puts 'Example #1 - Upload Form W4 from the IRS by URL.'
+form_w4_url = 'http://www.irs.gov/pub/irs-pdf/fw4.pdf'
+print '  Uploading... '
+uuid = nil
+
+begin
+  uuid = Crocodoc::Document.upload(form_w4_url)
+  puts 'success :)'
+  puts '  UUID is ' + uuid
+rescue CrocodocError => e
+  puts 'failed :('
+  puts '  Error Code: ' + e.code
+  puts '  Error Message: ' + e.message
+end
+
+%>
+
+<div class="center hero-unit">
+	<h1><%= yield(:title) %></h1>
+<link rel="stylesheet" href="vendor/assets/stylesheets/crocodoc.viewer.min.css" />
+<script type="text/javascript" src="vendor/assets/javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="vendor/assets/javascripts/crocodoc.viewer.min.js"></script>
+<div class="viewer" style="height: 600px"></div>
+
+<style>
+      .viewer {
+            height: 100%;
+        }
+        /* Add a border and box-shadow to each page */
+        .crocodoc-page-inner {
+            border: 1px solid #ccc;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+        
+        .crocodoc-page {
+            padding: 50px;
+        }
+        .controls {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            margin-left: -150px;
+            width: 300px;
+            text-align: center;
+        }
+        button {
+            background: #fafafa;
+            border: 0;
+        }
+        button.selected {
+            background: #999;
+        }
+        button:focus {
+            outline: 0;
+            box-shadow: 0 0 0 1px #aaa;
+        }
+    </style>
+<script type="text/javascript">
+    var viewer = Crocodoc.createViewer('.viewer', {
+        url: 'https://view-api.box.com/1/sessions/8e26662fa1fe4f6b855dc9a078139843/assets/',
+        page: '5',
+        layout: Crocodoc.LAYOUT_VERTICAL_SINGLE_COLUMN
+       
+    });
+    viewer.load();
+    viewer.zoom(Crocodoc.ZOOM_IN);
+    viewer.zoom(Crocodoc.ZOOM_AUTO);
+</script>    
+	 <div class="viewer"></div>
+    <div class="controls">
+        <button class="pop" onclick="setMode('pop')">Pop</button>
+        <button class="carousel" onclick="setMode('carousel')">Carousel</button>
+        <button class="slide" onclick="setMode('slide')">Slide</button>
+        <button class="book" onclick="setMode('book')">Book</button>
+    </div>
+</div>
     
-
-<iframe src="https://view-api.box.com/1/sessions/a98ec5e203cd4b5bb686db41716a12a1/view?theme=dark" height="240" width="400" allowfullscreen=""></iframe>

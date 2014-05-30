@@ -10,4 +10,6 @@
  *
  *= require_self
  *= require_tree .
+ *= require crocodoc.viewer.css
+ *= require crocodoc.viewer.min.css
  */
